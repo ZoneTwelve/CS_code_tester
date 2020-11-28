@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo cp ./run_sample /usr/bin/test-code
+sudo cp ./test-code /usr/bin/test-code
 sudo chmod +x /usr/bin/test-code
 test-code
 test-code wrong.cpp

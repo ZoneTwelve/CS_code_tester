@@ -9,7 +9,32 @@ fi
 echo $program
 if g++ $program -o program; then
   echo "Compile successful"
-  for tc in *.in; do
+  if [ -z "$2" ]
+  then
+    for tc in *.in; do
+      index=`echo $tc | cut -d '.' -f 1`
+      echo -ne "------------ testcase $index\t ---------------\n"
+      ./program < $tc | tee "testcase_$index"
+      #cp $index.out testcase_$index # AC test
+      echo -ne "\n\n"
+      res=`md5sum "testcase_$index"`
+      ans=`md5sum "$index.out"`
+      echo $res
+      echo $ans
+      res=`echo $res|cut -d ' ' -f 1`
+      ans=`echo $ans|cut -d ' ' -f 1`
+      if [ "$ans" = "$res" ]
+      then
+        echo -e "\e[32mAnswer is correct\e[39m"
+      else
+        echo -e "\e[31mWrong Answer\e[39m"
+        final="\e[31m     Wrong answer     "
+      fi
+      echo -ne "========================================\n\n"
+      rm "testcase_$index"
+    done
+  else
+    tc=$2
     index=`echo $tc | cut -d '.' -f 1`
     echo -ne "------------ testcase $index\t ---------------\n"
     ./program < $tc | tee "testcase_$index"
@@ -30,7 +55,7 @@ if g++ $program -o program; then
     fi
     echo -ne "========================================\n\n"
     rm "testcase_$index"
-  done
+  fi
   echo -e "\e[5m\e[7m$final\e[39m\e[0m"
 else
   echo "Compile failed"
