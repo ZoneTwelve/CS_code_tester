@@ -7,4 +7,4 @@ test-code wrong.cpp
 test-code bad.cpp
 ```
 
-![screen shot][demo.png]
+![screen shot](demo.png)
